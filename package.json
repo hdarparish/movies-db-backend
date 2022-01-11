@@ -2,10 +2,10 @@
   "name": "movies-db-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start": "node  index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,7 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^10.0.0",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "mongodb": "^4.2.2",
+    "mongoose": "^6.1.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
