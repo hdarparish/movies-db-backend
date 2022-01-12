@@ -1,17 +1,20 @@
 import express from "express";
-import dotenv from "dotenv";
+import cors from "cors";
 import routes from "./routes.js";
+
+import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
 
-app.use(express.json());
-app.use("/", routes);
+const corsOptions = {
+  origin: [process.env.WHITELIST_URL1, process.env.WHITELIST_URL2],
+};
 
-app.get("/", (req, res) => {
-  res.send("hello to movies db backend");
-});
+app.use(express.json());
+app.use(cors(corsOptions));
+app.use("/", routes);
 
 export default app.listen(port, () =>
   console.log(`API server ready on http://localhost:${port}`)
