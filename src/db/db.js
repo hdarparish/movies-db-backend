@@ -3,7 +3,7 @@ import { config } from "dotenv";
 
 config();
 
-const getTopMovies = async (skip = 0) => {
+const getTopMovies = async (page = 0) => {
   const client = new MongoClient(process.env.DB_CONNECTION);
   try {
     await client.connect();
@@ -12,7 +12,7 @@ const getTopMovies = async (skip = 0) => {
     const data = await collection
       .find()
       .sort({ votes: -1 })
-      .skip(skip) //skips 20 movies
+      .skip(page) //skips 20 movies
       .limit(20) //limits the results to 20 movies
       .toArray();
 
@@ -22,16 +22,16 @@ const getTopMovies = async (skip = 0) => {
   }
   client.close();
 };
-const getGenreMovies = async (genre, skip = 0) => {
+const getCategoryMovies = async (category, page = 0) => {
   const client = new MongoClient(process.env.DB_CONNECTION);
   try {
     await client.connect();
     const db = client.db(process.env.DB_NAME);
     const collection = db.collection(process.env.DB_COLLECTION);
     const data = await collection
-      .find({ genre: genre })
+      .find({ genre: category })
       .sort({ votes: -1 })
-      .skip(skip) //skips 20 movies
+      .skip(page) //skips 20 movies
       .limit(20) //limits the results to 20 movies
       .toArray();
 
@@ -54,5 +54,25 @@ const getMovieDetail = async (movieID) => {
   }
   client.close();
 };
+const getSearchQuery = async (query, page = 0) => {
+  const client = new MongoClient(process.env.DB_CONNECTION);
+  try {
+    console.log(typeof query);
+    await client.connect();
+    const db = client.db(process.env.DB_NAME);
+    const collection = db.collection(process.env.DB_COLLECTION);
+    const data = await collection
+      .find({ title: { $regex: query, $options: "i" } })
+      .sort({ votes: -1 })
+      .skip(page) //skips 20 movies
+      .limit(20) //limits the results to 20 movies
+      .toArray();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+  client.close();
+};
 
-export { getTopMovies, getGenreMovies, getMovieDetail };
+export { getTopMovies, getCategoryMovies, getMovieDetail, getSearchQuery };

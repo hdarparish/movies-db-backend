@@ -4,19 +4,25 @@ import * as db from "./db/db.js";
 const router = express.Router();
 
 router.get("/", async (request, response) => {
-  const skip = parseInt(request.query.skip) || 0;
-  const data = await db.getTopMovies(skip);
+  const page = parseInt(request.query.page) || 0;
+  const data = await db.getTopMovies(page);
   return response.status(200).send(data);
 });
-router.get("/genre", async (request, response) => {
-  const genre = request.query.genre;
-  const skip = parseInt(request.query.skip) || 0;
-  const data = await db.getGenreMovies(genre, skip);
+router.get("/category", async (request, response) => {
+  const category = request.query.category;
+  const page = parseInt(request.query.page) || 0;
+  const data = await db.getCategoryMovies(category, page);
   return response.status(200).send(data);
 });
 router.get("/movie/:id", async (request, response) => {
   const movieID = request.params.id;
   const data = await db.getMovieDetail(movieID);
+  return response.status(200).send(data);
+});
+router.get("/search", async (request, response) => {
+  const query = request.query.query;
+  const page = parseInt(request.query.page) || 0;
+  const data = await db.getSearchQuery(query, page);
   return response.status(200).send(data);
 });
 
