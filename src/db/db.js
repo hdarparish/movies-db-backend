@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { config } from "dotenv";
-
+import { addUniqueID } from "../generateID.js";
 config();
 
 const getTopMovies = async (page = 0) => {
@@ -16,7 +16,7 @@ const getTopMovies = async (page = 0) => {
       .limit(20) //limits the results to 20 movies
       .toArray();
 
-    return data;
+    return addUniqueID(data);
   } catch (err) {
     console.error(err);
   }
@@ -35,7 +35,7 @@ const getCategoryMovies = async (category, page = 0) => {
       .limit(20) //limits the results to 20 movies
       .toArray();
 
-    return data;
+    return addUniqueID(data);
   } catch (err) {
     console.error(err);
   }
@@ -57,7 +57,6 @@ const getMovieDetail = async (movieID) => {
 const getSearchQuery = async (query, page = 0) => {
   const client = new MongoClient(process.env.DB_CONNECTION);
   try {
-    console.log(typeof query);
     await client.connect();
     const db = client.db(process.env.DB_NAME);
     const collection = db.collection(process.env.DB_COLLECTION);
@@ -67,7 +66,7 @@ const getSearchQuery = async (query, page = 0) => {
       .skip(page) //skips 20 movies
       .limit(20) //limits the results to 20 movies
       .toArray();
-    console.log(data);
+
     return data;
   } catch (err) {
     console.error(err);
