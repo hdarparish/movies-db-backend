@@ -3,10 +3,11 @@ import cors from "cors";
 import routes from "./src/routes.js";
 
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 
 const corsOptions = {
   origin: [process.env.WHITELIST_URL1, process.env.WHITELIST_URL2],
