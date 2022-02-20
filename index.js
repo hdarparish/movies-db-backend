@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import routes from "./src/routes.js";
+import errorHandler from "./src/middleware/errorMiddleware.js";
 
 import dotenv from "dotenv";
 
@@ -16,6 +17,9 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/", routes);
+
+//global error handler
+app.use(errorHandler);
 
 export default app.listen(port, () =>
   console.log(`API server ready on http://localhost:${port}`)
