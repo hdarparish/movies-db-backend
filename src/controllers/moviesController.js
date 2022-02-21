@@ -34,7 +34,7 @@ const getMovieDetail = async (request, response, next) => {
   try {
     const movieID = request.params.id;
     const title = await Title.find({ _id: movieID });
-    response.status(200).send(title);
+    return response.status(200).send(title[0]);
   } catch (error) {
     console.error(error);
     next(error);
