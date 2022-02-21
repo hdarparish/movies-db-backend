@@ -1,9 +1,9 @@
-const errorHandler = (err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
+const errorHandler = (error, request, response, next) => {
+  if (response.headersSent) {
+    return next(error);
   }
-  console.error(err.stack);
-  res.status(404).send({ message: "not found" });
+  console.error(error.stack);
+  response.status(404).send({ message: "not found" });
 };
 
 export default errorHandler;
